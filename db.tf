@@ -4,7 +4,7 @@ resource "aws_db_instance" "boundary" {
   engine              = "postgres"
   engine_version      = "11.12"
   instance_class      = "db.t2.micro"
-  db_name             = "boundary"
+  db_name             = "boundary-${var.name}"
   username            = var.boundary_db_username
   password            = var.boundary_db_password
   skip_final_snapshot = true
@@ -42,7 +42,7 @@ resource "aws_security_group_rule" "allow_egress_db" {
 }
 
 resource "aws_db_subnet_group" "boundary" {
-  name       = "boundary"
+  name       = "boundary-${var.name}"
   subnet_ids = var.private_subnet_ids
 
   tags = merge(local.tags, { Component = "database" })
